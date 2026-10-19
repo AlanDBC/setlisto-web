@@ -1,0 +1,493 @@
+/* Variables de Color y Tema */
+:root {
+    --bg-main: #0d0d0f;
+    --bg-sidebar: #121214;
+    --bg-card: #1a1a1e;
+    --bg-input: #1e1e24;
+    --primary-accent: #f5a623;
+    --primary-accent-hover: #d9921e;
+    --text-main: #ffffff;
+    --text-muted: #9e9e9e;
+    --border-color: #2a2a2e;
+}
+
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Header Compartido --- */
+.top-header {
+    height: 70px;
+    background-color: var(--bg-sidebar);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-logo img {
+    height: 28px;
+}
+
+.header-nav {
+    display: flex;
+    gap: 8px;
+}
+
+.nav-item {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.2s;
+}
+
+.nav-item:hover {
+    color: var(--text-main);
+}
+
+.nav-item.active {
+    color: var(--primary-accent);
+    background-color: rgba(245, 166, 35, 0.1);
+}
+
+.header-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--primary-accent);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.user-role {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* --- Layout Principal --- */
+.main-container {
+    display: flex;
+    flex: 1;
+}
+
+/* --- Sidebar Filtros --- */
+.sidebar-filters {
+    width: 330px;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
+    padding: 24px;
+    flex-shrink: 0;
+    overflow-y: auto;
+    height: calc(100vh - 70px);
+    position: sticky;
+    top: 70px;
+}
+
+.filter-header h3 {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+}
+
+.filter-group {
+    margin-bottom: 24px;
+}
+
+.filter-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
+.search-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input .material-icons {
+    position: absolute;
+    left: 12px;
+    color: var(--text-muted);
+    font-size: 18px;
+}
+
+.search-input input {
+    width: 100%;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 10px 12px 10px 36px;
+    border-radius: 8px;
+    font-size: 13px;
+    outline: none;
+}
+
+.standard-input, .standard-select {
+    width: 100%;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    outline: none;
+    appearance: none;
+}
+
+.checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px !important;
+    color: var(--text-main) !important;
+    text-transform: none;
+    letter-spacing: normal !important;
+    font-weight: 400 !important;
+    cursor: pointer;
+}
+
+.checkbox-item input[type="checkbox"] {
+    accent-color: var(--primary-accent);
+    width: 16px;
+    height: 16px;
+}
+
+.btn-filter {
+    width: 100%;
+    background-color: var(--bg-input);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 10px;
+}
+
+.btn-filter:hover {
+    border-color: var(--primary-accent);
+}
+
+/* --- Contenido Área --- */
+.content-area {
+    flex: 1;
+    padding: 40px;
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.results-count {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.sort-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-main);
+    background-color: var(--bg-card);
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* --- Grid y Tarjetas --- */
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.event-card {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+    border-color: #3a3a40;
+}
+
+.card-image {
+    height: 160px;
+    background-color: #2a2a2e;
+    background-size: cover;
+    background-position: center;
+    padding: 16px;
+    position: relative;
+}
+
+.card-image::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(to top, var(--bg-card), transparent);
+}
+
+.event-badge {
+    background-color: var(--primary-accent);
+    color: #000;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 12px;
+    position: relative;
+    z-index: 2;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.event-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.event-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.detail-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.detail-row .material-icons {
+    font-size: 14px;
+    color: #6a6a70;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.stars {
+    color: var(--primary-accent);
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+.star-empty {
+    color: #3a3a40;
+}
+
+.rating-text {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+    padding-top: 16px;
+}
+
+.price {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.btn-primary-small {
+    background-color: var(--primary-accent);
+    color: #000;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: background-color 0.2s;
+}
+
+.btn-primary-small .material-icons {
+    font-size: 14px;
+}
+
+.btn-primary-small:hover {
+    background-color: var(--primary-accent-hover);
+}
+/* --- Dropdown del Usuario --- */
+.header-user-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* Efecto hover suave para la zona clickeable */
+.header-user {
+    padding: 6px 8px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+.header-user:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Estilos de la caja del menú */
+.dropdown-menu {
+    display: none; /* Oculto por defecto */
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 12px;
+    background-color: var(--bg-card); /* Usa el fondo oscuro de tus tarjetas */
+    min-width: 180px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0px 8px 24px rgba(0,0,0,0.6);
+    overflow: hidden;
+    z-index: 1000;
+}
+
+/* Esta clase se activa con JavaScript */
+.dropdown-menu.show {
+    display: block;
+    animation: fadeIn 0.2s ease;
+}
+
+/* Opciones dentro del menú */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.dropdown-item .material-icons {
+    font-size: 18px;
+    color: #ff4d4f; /* Tono rojo sutil para denotar salida */
+}
+
+.dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #ff4d4f;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+/* Estilos para tiradores de ambos sliders */
+.range-slider-wrapper input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--primary-accent);
+    cursor: pointer;
+    pointer-events: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.range-slider-wrapper input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--primary-accent);
+    cursor: pointer;
+    pointer-events: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    border: none;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
