@@ -1,0 +1,151 @@
+/* cliente-header-styles.css */
+
+/* Variables locales del header (necesarias si se desliga del css global) */
+:root {
+    --bg-sidebar: #121214;
+    --bg-card: #1a1a1e;
+    --primary-accent: #f5a623;
+    --text-main: #ffffff;
+    --text-muted: #9e9e9e;
+    --border-color: #2a2a2e;
+}
+
+/* --- Header Compartido --- */
+.top-header {
+    height: 70px;
+    background-color: var(--bg-sidebar);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-logo img {
+    height: 28px;
+}
+
+.header-nav {
+    display: flex;
+    gap: 8px;
+}
+
+.nav-item {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.2s;
+}
+
+.nav-item:hover {
+    color: var(--text-main);
+}
+
+.nav-item.active {
+    color: var(--primary-accent);
+    background-color: rgba(245, 166, 35, 0.1);
+}
+
+.header-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.header-user:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--primary-accent);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.user-role {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* --- Dropdown del Usuario --- */
+.header-user-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* Estilos de la caja del menú */
+.dropdown-menu {
+    display: none; /* Oculto por defecto */
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 12px;
+    background-color: var(--bg-card); /* Usa el fondo oscuro de tus tarjetas */
+    min-width: 180px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0px 8px 24px rgba(0,0,0,0.6);
+    overflow: hidden;
+    z-index: 1000;
+}
+
+/* Esta clase se activa con JavaScript */
+.dropdown-menu.show {
+    display: block;
+    animation: fadeIn 0.2s ease;
+}
+
+/* Opciones dentro del menú */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.dropdown-item .material-icons {
+    font-size: 18px;
+    color: #ff4d4f; /* Tono rojo sutil para denotar salida */
+}
+
+.dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #ff4d4f;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

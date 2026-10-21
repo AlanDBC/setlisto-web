@@ -6,17 +6,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Setlisto - Explorar Eventos</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/assets/css/evento-search-view-style.css">
-<link
-	href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-	rel="stylesheet">
-<!-- Iconos de Material Design -->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Setlisto - Explorar Eventos</title>
+	<link rel="stylesheet"href="${pageContext.request.contextPath}/assets/css/evento-search-view-style.css">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<!-- Iconos de Material Design -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
@@ -124,6 +120,7 @@
 			</div>
 		</main>
 	</div>
-	<script src="${pageContext.request.contextPath}/assets/js/filtros-sidebar.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/assets/js/filtros-sidebar.js"></script>
 </body>
 </html>

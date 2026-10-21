@@ -7,7 +7,9 @@ import com.setlisto.model.Cliente;
 import com.setlisto.service.ClienteService;
 import com.setlisto.service.ServiceException;
 import com.setlisto.service.impl.ClienteServiceImpl;
-import com.setlisto.utils.Views;
+import com.setlisto.utils.AppConstants.Actions;
+import com.setlisto.utils.AppConstants.Routes;
+import com.setlisto.utils.AppConstants.Views;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -38,7 +40,7 @@ public class ClienteServlet extends HttpServlet {
 		}
 		switch (action.toLowerCase()) {
 
-		case "gologin":
+		case Actions.GO_LOGIN:
 			response.sendRedirect(request.getContextPath());
 			break;
 
@@ -48,29 +50,29 @@ public class ClienteServlet extends HttpServlet {
 			try {
 				Cliente cliente = clienteService.login(email, password);
 				request.getSession().setAttribute("usuario", cliente);    
-				response.sendRedirect(request.getContextPath() + "/evento?action=search"); // Que pase por el controlador, para poblar datos de la sidebar
+				response.sendRedirect(request.getContextPath() + Routes.EVENTO + "?action=" + Actions.SEARCH);// Que pase por el controlador, para poblar datos de la sidebar 
 			} catch (ServiceException se) {
 				request.getRequestDispatcher(Views.USUARIO_LOGIN).forward(request, response);
 			}
 			break;
 
-		case "logout":
+		case Actions.LOGOUT:
 			request.getSession().removeAttribute("usuario");
 			response.sendRedirect(request.getContextPath());
 			break;
 
-		case "goregister":
+		case Actions.GO_REGISTER:
 			response.sendRedirect(request.getContextPath() + Views.USUARIO_REGISTER);
 			break;
 
-		case "register":
+		case Actions.REGISTER:
 			String emailR = request.getParameter("email");
 			String name = request.getParameter("name");
 			String surname1 = request.getParameter("surname1");
 			String birthDateStr = request.getParameter("birth_date");
 			String passwordR = request.getParameter("password");
 			String confirmPassword = request.getParameter("confirm_password");
-			
+
 			// 1. Validar que las contraseñas coincidan
 			if (passwordR == null || !passwordR.equals(confirmPassword)) {
 				request.setAttribute("error", "Las contraseñas no coinciden.");
@@ -85,30 +87,29 @@ public class ClienteServlet extends HttpServlet {
 			nuevoCliente.setContrasena(passwordR);
 
 			if (birthDateStr != null && !birthDateStr.isBlank()) {
-			    try {
-			        Date birthDate = Date.valueOf(birthDateStr);
-			        nuevoCliente.setFechaNacimiento(birthDate);
-			    } catch (IllegalArgumentException e) {
-			        request.setAttribute("error", "El formato de la fecha de nacimiento no es válido.");
-			        request.getRequestDispatcher(Views.USUARIO_REGISTER).forward(request, response);
-			        return;
-			    }
+				try {
+					Date birthDate = Date.valueOf(birthDateStr);
+					nuevoCliente.setFechaNacimiento(birthDate);
+				} catch (IllegalArgumentException e) {
+					request.setAttribute("error", "El formato de la fecha de nacimiento no es válido.");
+					request.getRequestDispatcher(Views.USUARIO_REGISTER).forward(request, response);
+					return;
+				}
 			} else {
-			    request.setAttribute("error", "La fecha de nacimiento es obligatoria.");
-			    request.getRequestDispatcher(Views.USUARIO_REGISTER).forward(request, response);
-			    return;
+				request.setAttribute("error", "La fecha de nacimiento es obligatoria.");
+				request.getRequestDispatcher(Views.USUARIO_REGISTER).forward(request, response);
+				return;
 			}
-			
-			
+
 			try {
 				// 3. Registrar cliente en la capa Service/DAO
-				clienteService.register(nuevoCliente); // O el método equivalente en tu ClienteService
+				clienteService.register(nuevoCliente); //
 
 				// 4. Iniciar sesión automáticamente tras el registro o redirigir
 				request.getSession().setAttribute("usuario", nuevoCliente);
 
-				// Redirigimos al catálogo/búsqueda de eventos
-				response.sendRedirect(request.getContextPath() + Views.EVENTO_SEARCH);
+				// Redirigimos al controlador de eventos para que procese la búsqueda y los filtros
+				response.sendRedirect(request.getContextPath() + Routes.EVENTO+"?action="+Actions.SEARCH);
 
 			} catch (ServiceException se) {
 				// Si el correo ya existe o falla la base de datos
@@ -118,8 +119,8 @@ public class ClienteServlet extends HttpServlet {
 
 			break;
 
-		case "search":
-			response.sendRedirect(request.getContextPath() + Views.EVENTO_SEARCH);
+		case Actions.SEARCH:
+			response.sendRedirect(request.getContextPath() + Routes.EVENTO+"?action="+Actions.SEARCH);
 			break;
 
 		default:

@@ -26,7 +26,8 @@ import com.setlisto.service.FiltroService;
 import com.setlisto.service.ServiceException;
 import com.setlisto.service.impl.EventoMusicalServiceImpl;
 import com.setlisto.service.impl.FiltroServiceImpl;
-import com.setlisto.utils.Views;
+import com.setlisto.utils.AppConstants.Actions;
+import com.setlisto.utils.AppConstants.Views;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -60,10 +61,7 @@ public class EventoMusicalServlet extends HttpServlet {
 
 		switch (action.toLowerCase()) {
 
-		case "detail":
-			break;
-
-		case "search":
+		case Actions.SEARCH:
 			try {
 				// 1. Cargar las jerarquías desde la base de datos
 				Map<GeneroMusical, List<SubGeneroMusicalDTO>> mapaGeneros = filtroService.obtenerGenerosJerarquicos();
@@ -205,6 +203,13 @@ public class EventoMusicalServlet extends HttpServlet {
 			}
 			break;
 
+		case Actions.DETAIL:
+			break;
+			
+		case Actions.REGISTER:
+				
+			break;
+
 		default:
 			response.sendRedirect(request.getContextPath() + Views.EVENTO_SEARCH);
 			break;
@@ -212,7 +217,6 @@ public class EventoMusicalServlet extends HttpServlet {
 		}
 
 	}
-
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
