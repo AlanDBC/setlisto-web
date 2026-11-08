@@ -11,6 +11,10 @@ public final class AppConstants {
 
 		public static final String USUARIO_LOGIN = "/public/auth/landing-login.jsp";
 		public static final String USUARIO_REGISTER = "/public/auth/registro.jsp";
+		
+		public static final String CLIENTE_PROFILE = "/private/cliente/mi-perfil.jsp";
+		
+		
 		public static final String ERROR_404 = "/public/error/error-404.html";	
 	}
 
@@ -27,5 +31,11 @@ public final class AppConstants {
 		public static final String GO_LOGIN = "gologin";
 		public static final String GO_REGISTER = "goregister";
 		public static final String LOGOUT = "logout";
+		public static final String GET_PROFILE = "getprofile";
+		public static final String GET_IMAGE = "getimage";
+	}
+	
+	public static final class ParamNames {
+		public static final String LOGGED = "usuario";
 	}
 }

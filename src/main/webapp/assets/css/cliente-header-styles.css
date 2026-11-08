@@ -142,10 +142,86 @@
 
 .dropdown-item:hover {
     background-color: rgba(255, 255, 255, 0.05);
-    color: #ff4d4f;
+    color: var(--text-main) !important; /* Obliga a que el texto siga siendo blanco */
+}
+
+/* Opcional: Que los iconos genéricos se iluminen en blanco al pasar el ratón */
+.dropdown-item:hover .material-icons {
+    color: var(--text-main) !important;
+}
+
+/* Hover exclusivo para el botón de Cerrar sesión */
+.dropdown-item.logout-item:hover,
+.dropdown-item.logout-item:hover .material-icons {
+    color: #ff4d4f !important; /* Aplica el rojo solo a la clase logout-item */
 }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+/* --- Cabecera de información del usuario en el dropdown --- */
+.dropdown-user-header {
+    padding: 12px 16px 8px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dropdown-user-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.dropdown-user-role {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+/* Línea separadora del menú */
+.dropdown-divider {
+    height: 1px;
+    background-color: var(--border-color);
+    border: none;
+    margin: 4px 0;
+}
+
+/* Ajustes específicos para los items del menú */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+    justify-content: flex-start; /* Asegura alineación a la izquierda */
+}
+
+/* Iconos genéricos del menú (Gris por defecto) */
+.dropdown-item .material-icons {
+    font-size: 18px;
+    color: var(--text-muted);
+    margin-right: 12px;
+}
+
+/* Icono chevron (flecha derecha) empujado al extremo derecho */
+.dropdown-item .chevron-right {
+    margin-left: auto; /* Empuja la flecha a la derecha */
+    margin-right: 0;
+    font-size: 16px;
+}
+
+/* Hover genérico */
+.dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Sobrescribir colores solo para el botón de cerrar sesión */
+.logout-item:hover,
+.logout-item:hover .material-icons {
+    color: #ff4d4f; /* Rojo al hacer hover en salir */
 }

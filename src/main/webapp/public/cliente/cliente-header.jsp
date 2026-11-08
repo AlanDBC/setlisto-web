@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!-- Dagiti baro a Jakarta JSTL taglibs para iti Tomcat 10+ -->
 <%@ taglib uri="jakarta.tags.core" prefix="c"%>
 <%@ taglib uri="jakarta.tags.functions" prefix="fn"%>
 
@@ -42,12 +41,30 @@
 				</div>
 
 				<div class="dropdown-menu" id="userDropdown">
+					<!-- Información del usuario en el dropdown -->
+					<div class="dropdown-user-header">
+						<span class="dropdown-user-name"><c:out
+								value="${sessionScope.usuario.nombre} ${sessionScope.usuario.apellido}" /></span>
+						<span class="dropdown-user-role">Rol Asignado: Cliente</span>
+					</div>
+
+					<hr class="dropdown-divider">
+
+					<!-- Nuevo MenuItem: Mi perfil -->
+					<a
+						href="${pageContext.request.contextPath}/cliente?action=getprofile"
+						class="dropdown-item"> <span class="material-icons">person</span>
+						Mi perfil <span class="material-icons chevron-right">chevron_right</span>
+					</a>
+
+					<hr class="dropdown-divider">
+
+					<!-- Opción de Cerrar sesión (ya sin el div extra que lo envolvía) -->
 					<a href="${pageContext.request.contextPath}/cliente?action=logout"
-						class="dropdown-item"> <span class="material-icons">logout</span>
-						Cerrar sesión
+						class="dropdown-item logout-item"> <span
+						class="material-icons">logout</span> Cerrar sesión
 					</a>
 				</div>
-
 			</c:when>
 			<c:otherwise>
 

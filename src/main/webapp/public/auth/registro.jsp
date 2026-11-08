@@ -35,7 +35,9 @@
 			</c:if>
 
 			<form action="${pageContext.request.contextPath}/cliente"
-				method="POST" class="register-form" autocomplete="off">
+				method="POST" class="register-form" autocomplete="off"
+				enctype="multipart/form-data">
+				
 				<input type="hidden" name="action" value="register">
 
 				<div class="input-group">
@@ -74,6 +76,10 @@
 					<label for="confirm_password">REPETIR CONTRASEÑA</label> <input
 						type="password" id="confirm_password" name="confirm_password"
 						autocomplete="new-password" placeholder="••••••••" required>
+				</div>
+				<div class="input-group">
+					<label for="imagen_perfil">ADJUNTAR IMAGEN</label> 
+					<input type="file" id="imagen_perfil" name="imagen_perfil" accept="image/*">
 				</div>
 
 				<button type="submit" class="btn-primary">Crear cuenta</button>
