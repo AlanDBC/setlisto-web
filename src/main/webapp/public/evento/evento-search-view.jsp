@@ -6,13 +6,17 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Setlisto - Explorar Eventos</title>
-	<link rel="stylesheet"href="${pageContext.request.contextPath}/assets/css/evento-search-view-style.css">
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-	<!-- Iconos de Material Design -->
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setlisto - Explorar Eventos</title>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/assets/css/evento-search-view-style.css">
+<link
+	href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+	rel="stylesheet">
+<!-- Iconos de Material Design -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 </head>
 <body>
 
@@ -43,8 +47,7 @@
 						<c:forEach var="evento" items="${resultados.page}">
 							<article class="event-card">
 								<c:set var="bgImage"
-									value="${not empty evento.rutaImagenPlano ? pageContext.request.contextPath.concat('/img/').concat(evento.rutaImagenPlano) : pageContext.request.contextPath.concat('/img/placeholder-event.jpg')}" />
-
+									value="${pageContext.request.contextPath}/evento?action=getsmallimage&id=${evento.id}"></c:set>
 								<div class="card-image"
 									style="background-image: url('${bgImage}');">
 									<span class="event-badge">${evento.tipoNombre}</span>

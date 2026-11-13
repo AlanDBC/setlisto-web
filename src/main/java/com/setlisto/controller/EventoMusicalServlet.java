@@ -1,6 +1,7 @@
 package com.setlisto.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
@@ -13,6 +14,9 @@ import org.apache.logging.log4j.Logger;
 
 import com.setlisto.criteria.EventoMusicalCriteria;
 import com.setlisto.model.Ciudad;
+import com.setlisto.model.ContentData;
+import com.setlisto.model.ContentException;
+import com.setlisto.model.ContentMetadata;
 import com.setlisto.model.EventoMusicalDTO;
 import com.setlisto.model.GeneroMusical;
 import com.setlisto.model.Pais;
@@ -21,9 +25,11 @@ import com.setlisto.model.Results;
 import com.setlisto.model.SubGeneroMusicalDTO;
 import com.setlisto.model.SubTipoEventoDTO;
 import com.setlisto.model.TipoEvento;
+import com.setlisto.service.ContentService;
 import com.setlisto.service.EventoMusicalService;
 import com.setlisto.service.FiltroService;
 import com.setlisto.service.ServiceException;
+import com.setlisto.service.impl.ContentServiceImpl;
 import com.setlisto.service.impl.EventoMusicalServiceImpl;
 import com.setlisto.service.impl.FiltroServiceImpl;
 import com.setlisto.utils.AppConstants.Actions;
@@ -45,10 +51,12 @@ public class EventoMusicalServlet extends HttpServlet {
 
 	private EventoMusicalService eventoMusicalService = null;
 	private FiltroService filtroService = null;
+	private ContentService contentService = null;
 
 	public EventoMusicalServlet() {
 		eventoMusicalService = new EventoMusicalServiceImpl();
 		filtroService = new FiltroServiceImpl();
+		contentService = new ContentServiceImpl();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -113,7 +121,7 @@ public class EventoMusicalServlet extends HttpServlet {
 
 				// Ciudades
 				String[] ciudadesSeleccionadas = request.getParameterValues("city");
-				if (ciudadesSeleccionadas != null && ciudadesSeleccionadas.length > 0) {
+				if (ciudadesSeleccionadas != null && ciudadesSeleccionadas.length > 0) { // TODO meter en funcion
 					List<Long> ciudadIds = Arrays.stream(ciudadesSeleccionadas)
 							.map(Long::valueOf)
 							.collect(Collectors.toList());
@@ -206,10 +214,36 @@ public class EventoMusicalServlet extends HttpServlet {
 		case Actions.DETAIL:
 			break;
 			
-		case Actions.REGISTER:
-				
+		
+		case Actions.CREATE:
 			break;
+			
+		case Actions.GET_SMALL_IMAGE:
+		    ContentMetadata cm = new ContentMetadata();
+		    cm.setEntityType("evento");
+		    cm.setEntityId(request.getParameter("id"));
+		    cm.setResourceId("small_image");
+		    cm.setFormat(".jpg");
 
+		    try {
+		        ContentData image = contentService.getContent(cm);
+		        response.setContentType("image/jpeg");
+		        response.getOutputStream().write(image.getRaw());
+		        response.getOutputStream().flush();
+		    } catch (ContentException ce) {
+		        // Al no existir en disco, se sirve la imagen estática por defecto desde webapp
+		        try (InputStream defaultImgStream = getServletContext().getResourceAsStream("/assets/img/default-event.jpg")) {
+		            if (defaultImgStream != null) {
+		                response.setContentType("image/jpeg");
+		                defaultImgStream.transferTo(response.getOutputStream());
+		                response.getOutputStream().flush();
+		            } else {
+		                logger.warn("No se encontró la imagen por defecto en /assets/img/default-event.jpg");
+		                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+		            }
+		        }
+		    }
+		    break;
 		default:
 			response.sendRedirect(request.getContextPath() + Views.EVENTO_SEARCH);
 			break;

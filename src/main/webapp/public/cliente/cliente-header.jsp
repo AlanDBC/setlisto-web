@@ -18,8 +18,13 @@
 	</div>
 
 	<nav class="header-nav">
-		<a href="#" class="nav-item active">Explorar eventos</a> <a href="#"
-			class="nav-item">Mis reservas</a>
+		<!-- Validamos si el parámetro action es 'search' para activar la pestaña 'Explorar eventos' -->
+		<a href="${pageContext.request.contextPath}/evento?action=search" 
+		   class="nav-item ${param.action == 'search' ? 'active' : ''}">Explorar eventos</a> 
+		
+		<!-- Validamos la acción de reservas (ajusta 'misreservas' al action real de tu servlet) -->
+		<a href="#"
+		   class="nav-item ${param.action == 'misreservas' ? 'active' : ''}">Mis reservas</a>
 	</nav>
 
 	<div class="header-user-container">
@@ -28,10 +33,24 @@
 			<c:when test="${not empty sessionScope.usuario}">
 
 				<div class="header-user" id="userDropdownTrigger">
-					<div class="user-avatar">
+
+					<!-- Contenedor con la imagen de perfil -->
+					<div class="user-avatar" id="header-avatar-img"
+						style="overflow: hidden; padding: 0; background: transparent;">
+						<img
+							src="${pageContext.request.contextPath}/cliente?action=getimage"
+							alt="Avatar"
+							style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;"
+							onerror="document.getElementById('header-avatar-img').style.display='none'; document.getElementById('header-avatar-initial').style.display='flex';">
+					</div>
+
+					<!-- Contenedor con la inicial (oculto por defecto) -->
+					<div class="user-avatar" id="header-avatar-initial"
+						style="display: none;">
 						<c:out
 							value="${fn:toUpperCase(fn:substring(sessionScope.usuario.nombre, 0, 1))}" />
 					</div>
+
 					<div class="user-info">
 						<span class="user-name"><c:out
 								value="${sessionScope.usuario.nombre}" /></span> <span

@@ -48,17 +48,18 @@
 			<version>3.0.1</version>
 		</dependency>
 
-		<!-- Tu dependencia local -->
-		<dependency>
-			<groupId>com.setlisto</groupId>
-			<artifactId>setlisto-middleware</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
+
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-fileupload2-jakarta-servlet5</artifactId>
 			<version>2.0.0-M5</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.setlisto</groupId>
+			<artifactId>setlisto-middleware</artifactId>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

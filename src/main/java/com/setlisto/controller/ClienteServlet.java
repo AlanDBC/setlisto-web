@@ -30,26 +30,25 @@ import jakarta.servlet.http.Part;
  * Servlet implementation class UserServlet
  */
 @WebServlet("/cliente")
-@MultipartConfig(
-		fileSizeThreshold = 1024 * 1024 * 2, // 2MB
-		maxFileSize = 1024 * 1024 * 10,      // 10MB
-		maxRequestSize = 1024 * 1024 * 50    // 50MB
-		)
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+		maxFileSize = 1024 * 1024 * 10, // 10MB
+		maxRequestSize = 1024 * 1024 * 50 // 50MB
+)
 public class ClienteServlet extends HttpServlet {
-
 
 	private ClienteService clienteService = null;
 	private ContentService contentService = null;
 
-	public ClienteServlet() { 
+	public ClienteServlet() {
 		super();
 		clienteService = new ClienteServiceImpl();
 		contentService = new ContentServiceImpl();
 	}
 
 	// senRedirect = request.getContextPath() + View...
-	// forward = View...  Ya tiene el contexto del path
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	// forward = View... Ya tiene el contexto del path
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String action = request.getParameter("action");
 		if (action == null) {
 			action = "";
@@ -65,8 +64,17 @@ public class ClienteServlet extends HttpServlet {
 			String password = request.getParameter("password");
 			try {
 				Cliente cliente = clienteService.login(email, password);
-				request.getSession().setAttribute(ParamNames.LOGGED, cliente);    
-				response.sendRedirect(request.getContextPath() + Routes.EVENTO + "?action=" + Actions.SEARCH);// Que pase por el controlador, para poblar datos de la sidebar 
+				request.getSession().setAttribute(ParamNames.LOGGED, cliente);
+				response.sendRedirect(request.getContextPath() + Routes.EVENTO + "?action=" + Actions.SEARCH);// Que
+																												// pase
+																												// por
+																												// el
+																												// controlador
+																												// para
+																												// poblar
+																												// datos
+																												// de la
+																												// sidebar
 			} catch (ServiceException se) {
 				request.getRequestDispatcher(Views.USUARIO_LOGIN).forward(request, response);
 			}
@@ -126,15 +134,15 @@ public class ClienteServlet extends HttpServlet {
 
 				if (filePart != null && filePart.getSize() > 0) {
 					String submittedFileName = filePart.getSubmittedFileName();
-					String extension = submittedFileName.contains(".") ? 
-							submittedFileName.substring(submittedFileName.lastIndexOf(".")) : "";
+					String extension = submittedFileName.contains(".")
+							? submittedFileName.substring(submittedFileName.lastIndexOf("."))
+							: "";
 
 					// Preparar metadatos
 					ContentMetadata metadata = new ContentMetadata();
 					metadata.setEntityType("cliente");
 					metadata.setEntityId(String.valueOf(registrado.getId())); // Obtienes el ID recién creado
 					metadata.setResourceId("avatar");
-					metadata.setResourceName("perfil"); 
 					metadata.setFormat(extension); // ej: ".jpg"
 
 					// Extraer los bytes de la imagen
@@ -148,15 +156,16 @@ public class ClienteServlet extends HttpServlet {
 					contentData.setMetadata(metadata);
 					contentData.setRaw(rawBytes);
 
-					// Guarda la imagen en la estructura CMS_BASE_FOLDER/cliente/{id}/avatar/perfil.jpg
+					// Guarda la imagen en la estructura
+					// CMS_BASE_FOLDER/cliente/{id}/avatar/perfil.jpg
 					contentService.save(contentData);
 				}
 
 				// 5. Iniciar sesión automáticamente tras el registro o redirigir
 				request.getSession().setAttribute(ParamNames.LOGGED, registrado);
 
-				response.sendRedirect(request.getContextPath() + Routes.EVENTO+"?action="+Actions.SEARCH);
-			} catch (ServiceException se){
+				response.sendRedirect(request.getContextPath() + Routes.EVENTO + "?action=" + Actions.SEARCH);
+			} catch (ServiceException se) {
 				request.setAttribute("error", se.getMessage());
 				request.getRequestDispatcher(Views.USUARIO_REGISTER).forward(request, response);
 			} catch (Throwable e) {
@@ -166,16 +175,15 @@ public class ClienteServlet extends HttpServlet {
 			}
 			break;
 
-
 		case Actions.SEARCH:
-			response.sendRedirect(request.getContextPath() + Routes.EVENTO+"?action="+Actions.SEARCH);
+			response.sendRedirect(request.getContextPath() + Routes.EVENTO + "?action=" + Actions.SEARCH);
 			break;
 
 		case Actions.GET_PROFILE:
 			request.getRequestDispatcher(Views.CLIENTE_PROFILE).forward(request, response);
 			break;
 
-			// por ahora traera y mostrara la imagen de perfil
+		// por ahora traera y mostrara la imagen de perfil
 		case Actions.GET_IMAGE:
 			// 1. Obtener de la sesión y validar que no sea null
 			Cliente logueado = (Cliente) request.getSession().getAttribute(ParamNames.LOGGED);
@@ -186,14 +194,15 @@ public class ClienteServlet extends HttpServlet {
 			}
 
 			ContentMetadata cm = new ContentMetadata();
-			cm.setEntityType("cliente"); 
-			cm.setEntityId(logueado.getId().toString()); 
+			cm.setEntityType("cliente");
+			cm.setEntityId(logueado.getId().toString());
 			cm.setResourceId("avatar");
 			cm.setResourceName("perfil"); // 2. Asignar el nombre que definiste en el registro
 
-			// 3. Nota: Para que sea 100% dinámico, deberías guardar la extensión en la base de datos de tu Cliente. 
+			// 3. Nota: Para que sea 100% dinámico, deberías guardar la extensión en la base
+			// de datos de tu Cliente.
 			// Por ahora, asegúrate de pedir el formato con punto si así lo guardaste:
-			cm.setFormat(".jpg"); 
+			cm.setFormat(".jpg");
 
 			try {
 				ContentData image = contentService.getContent(cm);
@@ -203,12 +212,25 @@ public class ClienteServlet extends HttpServlet {
 				response.getOutputStream().write(image.getRaw());
 				response.getOutputStream().flush();
 			} catch (ContentException ce) {
-				// Enviar error 404 si el cliente no tiene foto subida, en vez de romper la página
-				response.sendError(HttpServletResponse.SC_NOT_FOUND); 
-			}	
-			break;		}
+				// Enviar error 404 si el cliente no tiene foto subida, en vez de romper la
+				// página
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			}
+			break;
+
+		case Actions.UPDATE:
+			// traer todos los datos de la vista
+
+			// validar que no esten vacios los que antes tenian datos
+			
+			
+
+			break;
+		}
 	}
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 

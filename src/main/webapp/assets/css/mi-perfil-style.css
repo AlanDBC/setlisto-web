@@ -1,423 +1,548 @@
 /* Variables base para mantener consistencia con el diseño de Setlisto */
 :root {
-    --bg-main: #121212;
-    --bg-section: #1c1c1f;
-    --bg-input: #2a2a2e;
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0a5;
-    --accent-color: #f7a02b; /* El amarillo/naranja de los botones */
-    --accent-hover: #e08b1a;
-    --border-color: #333338;
-    --error-color: #ff5555;
-    --font-main: 'Inter', sans-serif;
+	--bg-main: #121212;
+	--bg-section: #1c1c1f;
+	--bg-input: #2a2a2e;
+	--text-primary: #ffffff;
+	--text-secondary: #a0a0a5;
+	--accent-color: #f7a02b; /* El amarillo/naranja de los botones */
+	--accent-hover: #e08b1a;
+	--border-color: #333338;
+	--error-color: #ff5555;
+	--font-main: 'Inter', sans-serif;
 }
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
 .perfil-body {
-    background-color: var(--bg-main);
-    color: var(--text-primary);
-    font-family: var(--font-main);
-    line-height: 1.5;
-    padding-bottom: 100px; /* Espacio para la barra flotante */
+	background-color: var(--bg-main);
+	color: var(--text-primary);
+	font-family: var(--font-main);
+	line-height: 1.5;
+	padding-bottom: 100px; /* Espacio para la barra flotante */
 }
 
 .perfil-container {
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 0 20px;
+	max-width: 1000px;
+	margin: 40px auto;
+	padding: 0 20px;
 }
 
 /* Cabecera del Perfil */
 .perfil-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 40px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 40px;
 }
 
 .perfil-header-izq {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+	display: flex;
+	align-items: center;
+	gap: 20px;
 }
 
 .avatar-grande {
-    width: 64px;
-    height: 64px;
-    background-color: var(--accent-color);
-    color: var(--bg-main);
-    font-size: 28px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
-    position: relative;
+	width: 64px;
+	height: 64px;
+	background-color: var(--accent-color);
+	color: var(--bg-main);
+	font-size: 28px;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 12px;
+	position: relative;
 }
 
 .status-dot {
-    position: absolute;
-    bottom: -4px;
-    right: -4px;
-    width: 16px;
-    height: 16px;
-    background-color: #00d26a; /* Verde */
-    border: 3px solid var(--bg-main);
-    border-radius: 50%;
+	position: absolute;
+	bottom: -4px;
+	right: -4px;
+	width: 16px;
+	height: 16px;
+	background-color: #00d26a; /* Verde */
+	border: 3px solid var(--bg-main);
+	border-radius: 50%;
 }
 
 /* Contenedor de la imagen de perfil real */
 .avatar-img-container {
-    position: relative; /* Crucial para que el status-dot se ancle a este contenedor */
-    width: 64px;
-    height: 64px;
+	position: relative;
+	/* Crucial para que el status-dot se ancle a este contenedor */
+	width: 64px;
+	height: 64px;
 }
 
 /* La propia imagen (etiqueta <img>) */
 .avatar-imagen {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Magia: Centra y recorta la foto para llenar el cuadrado sin aplastarla */
-    border-radius: 12px; /* El mismo borde redondeado que tiene .avatar-grande */
-    display: block; 
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	/* Magia: Centra y recorta la foto para llenar el cuadrado sin aplastarla */
+	border-radius: 12px;
+	/* El mismo borde redondeado que tiene .avatar-grande */
+	display: block;
 }
 
 .perfil-header-textos h1 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 4px;
+	font-size: 24px;
+	font-weight: 700;
+	margin-bottom: 4px;
 }
 
 .perfil-header-textos p {
-    color: var(--text-secondary);
-    font-size: 14px;
+	color: var(--text-secondary);
+	font-size: 14px;
 }
 
 .badge-asistente {
-    background-color: rgba(247, 160, 43, 0.1);
-    color: var(--accent-color);
-    border: 1px solid var(--accent-color);
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+	background-color: rgba(247, 160, 43, 0.1);
+	color: var(--accent-color);
+	border: 1px solid var(--accent-color);
+	padding: 6px 16px;
+	border-radius: 20px;
+	font-size: 13px;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	gap: 8px;
 }
+
 .badge-asistente::before {
-    content: '';
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    background-color: var(--accent-color);
-    border-radius: 50%;
+	content: '';
+	display: inline-block;
+	width: 6px;
+	height: 6px;
+	background-color: var(--accent-color);
+	border-radius: 50%;
 }
 
 /* Secciones Comunes */
 .perfil-seccion {
-    background-color: var(--bg-section);
-    border-radius: 16px;
-    padding: 30px;
-    margin-bottom: 24px;
-    border: 1px solid var(--border-color);
+	background-color: var(--bg-section);
+	border-radius: 16px;
+	padding: 30px;
+	margin-bottom: 24px;
+	border: 1px solid var(--border-color);
 }
 
 .seccion-header {
-    margin-bottom: 24px;
+	margin-bottom: 24px;
 }
 
 .seccion-categoria {
-    color: var(--accent-color);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 8px;
+	color: var(--accent-color);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	display: block;
+	margin-bottom: 8px;
 }
 
 .seccion-header h2 {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 6px;
+	font-size: 20px;
+	font-weight: 600;
+	margin-bottom: 6px;
 }
 
 .seccion-header p {
-    color: var(--text-secondary);
-    font-size: 14px;
+	color: var(--text-secondary);
+	font-size: 14px;
 }
 
 /* Formularios y Grids */
 .formulario-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 16px;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+	margin-bottom: 16px;
 }
 
 .input-group label {
-    display: block;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    margin-bottom: 8px;
+	display: block;
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--text-secondary);
+	margin-bottom: 8px;
 }
 
-.input-group input[type="text"],
-.input-group input[type="tel"] {
-    width: 100%;
-    background-color: var(--bg-main);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 15px;
-    font-family: inherit;
-    transition: border-color 0.2s;
+.input-group input[type="text"], .input-group input[type="tel"],
+	.input-group input[type="password"] {
+	width: 100%;
+	background-color: var(--bg-main);
+	border: 1px solid var(--border-color);
+	color: var(--text-primary);
+	padding: 12px 16px;
+	border-radius: 8px;
+	font-size: 15px;
+	font-family: inherit;
+	transition: border-color 0.2s;
+}
+
+/* Mantener el diseño oscuro aunque el usuario decida autocompletar */
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus,
+	input:-webkit-autofill:active {
+	-webkit-box-shadow: 0 0 0 30px #121214 inset !important;
+	-webkit-text-fill-color: #ffffff !important;
+	caret-color: #ffffff;
+	transition: background-color 5000s ease-in-out 0s;
 }
 
 .input-group input:focus {
-    outline: none;
-    border-color: var(--accent-color);
+	outline: none;
+	border-color: var(--accent-color);
 }
 
 /* Input Telefóno con prefijo */
 .input-telefono {
-    display: flex;
-    align-items: center;
-    background-color: var(--bg-main);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding-left: 16px;
+	display: flex;
+	align-items: center;
+	background-color: var(--bg-main);
+	border: 1px solid var(--border-color);
+	border-radius: 8px;
+	padding-left: 16px;
 }
 
 .prefijo {
-    color: var(--text-secondary);
-    font-size: 15px;
-    margin-right: 8px;
+	color: var(--text-secondary);
+	font-size: 15px;
+	margin-right: 8px;
 }
 
 .input-telefono input {
-    border: none !important;
-    background: transparent !important;
-    padding-left: 0 !important;
-    width: 100%;
+	border: none !important;
+	background: transparent !important;
+	padding-left: 0 !important;
+	width: 100%;
 }
 
 /* Inputs Solo Lectura */
 .input-readonly-container {
-    position: relative;
-    display: flex;
-    align-items: center;
+	position: relative;
+	display: flex;
+	align-items: center;
 }
 
 .input-readonly {
-    background-color: rgba(247, 160, 43, 0.05) !important; /* Ligeramente tintado */
-    color: var(--text-secondary) !important;
-    cursor: not-allowed;
-    padding-right: 40px !important;
+	background-color: rgba(247, 160, 43, 0.05) !important;
+	/* Ligeramente tintado */
+	color: var(--text-secondary) !important;
+	cursor: not-allowed;
+	padding-right: 40px !important;
 }
 
 .icono-candado {
-    position: absolute;
-    right: 16px;
-    color: var(--text-secondary);
-    font-size: 18px;
+	position: absolute;
+	right: 16px;
+	color: var(--text-secondary);
+	font-size: 18px;
 }
 
 .nota-informativa {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-secondary);
-    font-size: 13px;
-    margin-top: 16px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	color: var(--text-secondary);
+	font-size: 13px;
+	margin-top: 16px;
 }
+
 .icon-info {
-    font-size: 16px;
+	font-size: 16px;
 }
 
 /* Sección de Acceso (Cuenta) */
 .acceso-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
 }
 
 .acceso-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--bg-main);
-    border: 1px solid var(--border-color);
-    padding: 20px;
-    border-radius: 12px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: var(--bg-main);
+	border: 1px solid var(--border-color);
+	padding: 20px;
+	border-radius: 12px;
 }
 
 .acceso-info label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 6px;
+	display: block;
+	font-size: 13px;
+	font-weight: 600;
+	margin-bottom: 6px;
 }
 
 .dato-protegido {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--accent-color);
-    font-size: 15px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	color: var(--accent-color);
+	font-size: 15px;
 }
 
 /* Botones */
 .btn-primario {
-    background-color: var(--accent-color);
-    color: #000;
-    border: none;
-    padding: 10px 24px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background-color 0.2s;
+	background-color: var(--accent-color);
+	color: #000;
+	border: none;
+	padding: 10px 24px;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	font-family: inherit;
+	transition: background-color 0.2s;
 }
 
 .btn-primario:hover {
-    background-color: var(--accent-hover);
+	background-color: var(--accent-hover);
 }
 
 .btn-secundario {
-    background-color: transparent;
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.2s;
+	background-color: transparent;
+	color: var(--text-primary);
+	border: 1px solid var(--border-color);
+	padding: 10px 20px;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+	font-family: inherit;
+	transition: all 0.2s;
 }
 
 .btn-secundario:hover {
-    background-color: rgba(255,255,255,0.05);
-    border-color: #555;
+	background-color: rgba(255, 255, 255, 0.05);
+	border-color: #555;
 }
 
 /* Preferencias Musicales (Tags) */
 .tags-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-bottom: 20px;
 }
 
 .tag-musica {
-    background-color: rgba(247, 160, 43, 0.1);
-    color: var(--accent-color);
-    border: 1px solid var(--accent-color);
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
+	background-color: rgba(247, 160, 43, 0.1);
+	color: var(--accent-color);
+	border: 1px solid var(--accent-color);
+	padding: 6px 12px;
+	border-radius: 20px;
+	font-size: 13px;
+	font-weight: 500;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	cursor: pointer;
 }
 
 .tag-musica .icon-close {
-    font-size: 14px;
+	font-size: 14px;
 }
 
 .buscador-generos {
-    position: relative;
-    display: flex;
-    align-items: center;
+	position: relative;
+	display: flex;
+	align-items: center;
 }
 
 .buscador-generos input {
-    width: 100%;
-    background-color: var(--bg-main);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    padding: 14px 16px 14px 44px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-family: inherit;
+	width: 100%;
+	background-color: var(--bg-main);
+	border: 1px solid var(--border-color);
+	color: var(--text-primary);
+	padding: 14px 16px 14px 44px;
+	border-radius: 8px;
+	font-size: 14px;
+	font-family: inherit;
 }
 
 .icon-search {
-    position: absolute;
-    left: 14px;
-    color: var(--text-secondary);
-    font-size: 20px;
+	position: absolute;
+	left: 14px;
+	color: var(--text-secondary);
+	font-size: 20px;
 }
 
 .icon-expand {
-    position: absolute;
-    right: 14px;
-    color: var(--text-secondary);
+	position: absolute;
+	right: 14px;
+	color: var(--text-secondary);
 }
 
 /* Barra flotante de acciones */
 .acciones-flotantes {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: var(--bg-section);
-    border-top: 1px solid var(--border-color);
-    padding: 16px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 100;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background-color: var(--bg-section);
+	border-top: 1px solid var(--border-color);
+	padding: 16px 40px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	z-index: 100;
 }
 
 .texto-cambios {
-    color: var(--text-secondary);
-    font-size: 14px;
+	color: var(--text-secondary);
+	font-size: 14px;
 }
 
 .botones-acciones {
-    display: flex;
-    gap: 12px;
+	display: flex;
+	gap: 12px;
+}
+
+/* --- Modales de Perfil --- */
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1000;
+	/* Las siguientes líneas aseguran el centrado del modal */
+	display: none; /* JS lo cambiará a 'flex' */
+	align-items: center;
+	justify-content: center;
+}
+
+.modal-container {
+	background-color: #1a1a1e; /* Color oscuro base */
+	border: 1px solid #2a2a2e; /* Borde sutil */
+	border-radius: 12px;
+	width: 90%;
+	max-width: 420px;
+	padding: 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.modal-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+.modal-title-group h3 {
+	margin: 0 0 6px 0;
+	font-size: 18px;
+	font-weight: 600;
+	color: #ffffff;
+}
+
+.modal-title-group p {
+	margin: 0;
+	font-size: 13px;
+	color: #9e9e9e;
+}
+
+.modal-close {
+	color: #9e9e9e;
+	cursor: pointer;
+	font-size: 20px;
+	transition: color 0.2s;
+}
+
+.modal-close:hover {
+	color: #ffffff;
+}
+
+.modal-body {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+/* Reutiliza tu .input-group pero forzando el fondo de los inputs a negro/oscuro */
+.modal-body .input-group input {
+	background-color: #121214;
+	border: 1px solid #2a2a2e;
+	color: #ffffff;
+	padding: 10px 14px;
+	border-radius: 6px;
+	font-size: 14px;
+}
+
+.modal-body .input-group input:focus {
+	border-color: #f5a623;
+	outline: none;
+}
+
+.info-box {
+	background-color: rgba(255, 255, 255, 0.03);
+	border: 1px solid #2a2a2e;
+	border-radius: 8px;
+	padding: 12px 14px;
+	font-size: 12px;
+	color: #9e9e9e;
+	line-height: 1.5;
+}
+
+.modal-footer {
+	display: flex;
+	justify-content: center;
+	/* Alinea los botones al centro como en los diseños */
+	gap: 12px;
+	margin-top: 8px;
+}
+
+/* Botón de acción principal oscurecido (según Figma) */
+.btn-modal-primary {
+	background-color: #4a3812; /* Tono ocre oscuro */
+	color: #f5a623;
+	border: none;
+	border-radius: 6px;
+	padding: 10px 20px;
+	font-weight: 500;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+.btn-modal-primary:hover {
+	background-color: #5a4415;
 }
 
 /* Responsive básico */
-@media (max-width: 768px) {
-    .formulario-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .perfil-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-    }
-    
-    .acceso-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-    }
-    
-    .acceso-item .btn-secundario {
-        width: 100%;
-    }
-    
-    .acciones-flotantes {
-        flex-direction: column;
-        padding: 16px;
-        gap: 16px;
-        text-align: center;
-    }
+@media ( max-width : 768px) {
+	.formulario-grid {
+		grid-template-columns: 1fr;
+	}
+	.perfil-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 20px;
+	}
+	.acceso-item {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 16px;
+	}
+	.acceso-item .btn-secundario {
+		width: 100%;
+	}
+	.acciones-flotantes {
+		flex-direction: column;
+		padding: 16px;
+		gap: 16px;
+		text-align: center;
+	}
 }
