@@ -1,4 +1,4 @@
-package com.setlisto.utils;
+package com.setlisto.web.utils;
 
 public final class AppConstants {
 
@@ -6,24 +6,27 @@ public final class AppConstants {
 	private AppConstants() {}
 
 	public static final class Views {	
+		private Views() {}
+
 		public static final String EVENTO_SEARCH = "/public/evento/evento-search-view.jsp";
-		public static final String EVENTO_DETAIL = "/public/evento/evento-detail-view.html";
+		public static final String EVENTO_DETAIL = "/public/evento/evento-detail-view.jsp";
 
 		public static final String USUARIO_LOGIN = "/public/auth/landing-login.jsp";
 		public static final String USUARIO_REGISTER = "/public/auth/registro.jsp";
 		
 		public static final String CLIENTE_PROFILE = "/private/cliente/mi-perfil.jsp";
-		
-		
-		public static final String ERROR_404 = "/public/error/error-404.html";	
 	}
 
 	public static final class Routes {
+		private Routes() {}
+
 		public static final String EVENTO = "/evento";
 		public static final String CLIENTE = "/cliente";
 	}
 
 	public static final class Actions {
+		private Actions() {}
+
 		public static final String UPDATE = "update";
 		public static final String SEARCH = "search";
 		public static final String DETAIL = "detail";
@@ -39,6 +42,8 @@ public final class AppConstants {
 	}
 	
 	public static final class ParamNames {
+		private ParamNames() {}
+
 		public static final String LOGGED = "usuario";
 	}
 }

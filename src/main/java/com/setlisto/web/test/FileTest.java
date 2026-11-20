@@ -1,4 +1,4 @@
-package com.setlisto.test;
+package com.setlisto.web.test;
 
 import java.io.File;
 

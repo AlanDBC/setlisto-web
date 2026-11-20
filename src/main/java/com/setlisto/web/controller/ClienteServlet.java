@@ -1,8 +1,12 @@
-package com.setlisto.controller;
+package com.setlisto.web.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
+import java.util.Locale;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.setlisto.model.Cliente;
 import com.setlisto.model.ContentData;
@@ -13,10 +17,10 @@ import com.setlisto.service.ContentService;
 import com.setlisto.service.ServiceException;
 import com.setlisto.service.impl.ClienteServiceImpl;
 import com.setlisto.service.impl.ContentServiceImpl;
-import com.setlisto.utils.AppConstants.Actions;
-import com.setlisto.utils.AppConstants.ParamNames;
-import com.setlisto.utils.AppConstants.Routes;
-import com.setlisto.utils.AppConstants.Views;
+import com.setlisto.web.utils.AppConstants.Actions;
+import com.setlisto.web.utils.AppConstants.ParamNames;
+import com.setlisto.web.utils.AppConstants.Routes;
+import com.setlisto.web.utils.AppConstants.Views;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -24,6 +28,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 
 /**
@@ -36,8 +41,10 @@ import jakarta.servlet.http.Part;
 )
 public class ClienteServlet extends HttpServlet {
 
-	private ClienteService clienteService = null;
-	private ContentService contentService = null;
+	private static final Logger logger = LogManager.getLogger(ClienteServlet.class);
+
+	private final ClienteService clienteService;
+	private final ContentService contentService;
 
 	public ClienteServlet() {
 		super();
@@ -53,7 +60,7 @@ public class ClienteServlet extends HttpServlet {
 		if (action == null) {
 			action = "";
 		}
-		switch (action.toLowerCase()) {
+		switch (action.toLowerCase(Locale.ROOT)) {
 
 		case Actions.GO_LOGIN:
 			response.sendRedirect(request.getContextPath());
@@ -64,24 +71,26 @@ public class ClienteServlet extends HttpServlet {
 			String password = request.getParameter("password");
 			try {
 				Cliente cliente = clienteService.login(email, password);
+				HttpSession previousSession = request.getSession(false);
+				if (previousSession != null) {
+					previousSession.invalidate();
+				}
 				request.getSession().setAttribute(ParamNames.LOGGED, cliente);
-				response.sendRedirect(request.getContextPath() + Routes.EVENTO + "?action=" + Actions.SEARCH);// Que
-																												// pase
-																												// por
-																												// el
-																												// controlador
-																												// para
-																												// poblar
-																												// datos
-																												// de la
-																												// sidebar
+				// Que pase por el controlador para poblar datos de la sidebar
+				response.sendRedirect(request.getContextPath() + Routes.EVENTO + "?action=" + Actions.SEARCH);
 			} catch (ServiceException se) {
-				request.getRequestDispatcher(Views.USUARIO_LOGIN).forward(request, response);
+			    logger.warn("Intento de inicio de sesión fallido.");
+			    request.setAttribute("error", "Correo o contraseña incorrectos.");
+			    request.getRequestDispatcher(Views.USUARIO_LOGIN).forward(request, response);
 			}
 			break;
 
 		case Actions.LOGOUT:
-			request.getSession().removeAttribute(ParamNames.LOGGED);
+			HttpSession session = request.getSession(false);
+			if (session != null) {
+			    logger.info("Cerrando sesión de cliente.");
+			    session.invalidate();
+			}
 			response.sendRedirect(request.getContextPath());
 			break;
 
@@ -129,36 +138,11 @@ public class ClienteServlet extends HttpServlet {
 				// 3. Registrar cliente en la capa Service/DAO
 				Cliente registrado = clienteService.register(nuevoCliente); //
 
-				// 4. Procesar la imagen adjunta AHORA que el cliente ya existe y tiene un ID
-				Part filePart = request.getPart("imagen_perfil");
-
-				if (filePart != null && filePart.getSize() > 0) {
-					String submittedFileName = filePart.getSubmittedFileName();
-					String extension = submittedFileName.contains(".")
-							? submittedFileName.substring(submittedFileName.lastIndexOf("."))
-							: "";
-
-					// Preparar metadatos
-					ContentMetadata metadata = new ContentMetadata();
-					metadata.setEntityType("cliente");
-					metadata.setEntityId(String.valueOf(registrado.getId())); // Obtienes el ID recién creado
-					metadata.setResourceId("avatar");
-					metadata.setFormat(extension); // ej: ".jpg"
-
-					// Extraer los bytes de la imagen
-					byte[] rawBytes;
-					try (InputStream is = filePart.getInputStream()) {
-						rawBytes = is.readAllBytes();
-					}
-
-					// Empaquetar y enviar al servicio de contenido
-					ContentData contentData = new ContentData();
-					contentData.setMetadata(metadata);
-					contentData.setRaw(rawBytes);
-
-					// Guarda la imagen en la estructura
-					// CMS_BASE_FOLDER/cliente/{id}/avatar/perfil.jpg
-					contentService.save(contentData);
+				// La foto es opcional: si falla su almacenamiento, el alta sigue siendo válida.
+				try {
+					saveProfileImage(request.getPart("imagen_perfil"), registrado);
+				} catch (Exception e) {
+					logger.warn("No se pudo guardar la imagen de perfil del cliente {}", registrado.getId(), e);
 				}
 
 				// 5. Iniciar sesión automáticamente tras el registro o redirigir
@@ -166,11 +150,12 @@ public class ClienteServlet extends HttpServlet {
 
 				response.sendRedirect(request.getContextPath() + Routes.EVENTO + "?action=" + Actions.SEARCH);
 			} catch (ServiceException se) {
-				request.setAttribute("error", se.getMessage());
-				request.getRequestDispatcher(Views.USUARIO_REGISTER).forward(request, response);
-			} catch (Throwable e) {
-				// Capturar errores del guardado de contenido
-				request.setAttribute("error", "Error guardando la imagen: " + e.getMessage());
+				if (se.getCause() == null) {
+					request.setAttribute("error", se.getMessage());
+				} else {
+					logger.error("No se pudo completar el registro del cliente.", se);
+					request.setAttribute("error", "No se pudo completar el registro. Inténtalo de nuevo.");
+				}
 				request.getRequestDispatcher(Views.USUARIO_REGISTER).forward(request, response);
 			}
 			break;
@@ -185,10 +170,10 @@ public class ClienteServlet extends HttpServlet {
 
 		// por ahora traera y mostrara la imagen de perfil
 		case Actions.GET_IMAGE:
-			// 1. Obtener de la sesión y validar que no sea null
-			Cliente logueado = (Cliente) request.getSession().getAttribute(ParamNames.LOGGED);
+			HttpSession currentSession = request.getSession(false);
+			Object usuario = currentSession == null ? null : currentSession.getAttribute(ParamNames.LOGGED);
 
-			if (logueado == null) {
+			if (!(usuario instanceof Cliente logueado)) {
 				response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 				break;
 			}
@@ -197,11 +182,7 @@ public class ClienteServlet extends HttpServlet {
 			cm.setEntityType("cliente");
 			cm.setEntityId(logueado.getId().toString());
 			cm.setResourceId("avatar");
-			cm.setResourceName("perfil"); // 2. Asignar el nombre que definiste en el registro
-
-			// 3. Nota: Para que sea 100% dinámico, deberías guardar la extensión en la base
-			// de datos de tu Cliente.
-			// Por ahora, asegúrate de pedir el formato con punto si así lo guardaste:
+			cm.setResourceName("perfil");
 			cm.setFormat(".jpg");
 
 			try {
@@ -220,11 +201,12 @@ public class ClienteServlet extends HttpServlet {
 
 		case Actions.UPDATE:
 			// traer todos los datos de la vista
-
 			// validar que no esten vacios los que antes tenian datos
-			
-			
+			response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED);
+			break;
 
+		default:
+			response.sendRedirect(request.getContextPath());
 			break;
 		}
 	}
@@ -232,6 +214,31 @@ public class ClienteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
+	}
+
+	private void saveProfileImage(Part filePart, Cliente cliente) throws IOException, ContentException {
+		if (filePart == null || filePart.getSize() == 0) {
+			return;
+		}
+
+		String submittedFileName = filePart.getSubmittedFileName();
+		String extension = submittedFileName != null && submittedFileName.contains(".")
+				? submittedFileName.substring(submittedFileName.lastIndexOf('.'))
+				: "";
+
+		ContentMetadata metadata = new ContentMetadata();
+		metadata.setEntityType("cliente");
+		metadata.setEntityId(String.valueOf(cliente.getId()));
+		metadata.setResourceId("avatar");
+		metadata.setResourceName("perfil");
+		metadata.setFormat(extension);
+
+		ContentData contentData = new ContentData();
+		contentData.setMetadata(metadata);
+		try (InputStream input = filePart.getInputStream()) {
+			contentData.setRaw(input.readAllBytes());
+		}
+		contentService.save(contentData);
 	}
 
 }

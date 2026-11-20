@@ -1,4 +1,4 @@
-package com.setlisto.utils;
+package com.setlisto.web.utils;
 
 import java.io.IOException;
 import java.util.List;
@@ -55,6 +55,5 @@ public class WebUtils {
 		}
 
 		return bytes;
-	}
-
+	} // TODO repasar esta clase para preguntas
 }

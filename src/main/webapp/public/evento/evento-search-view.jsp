@@ -125,5 +125,6 @@
 	</div>
 	<script
 		src="${pageContext.request.contextPath}/assets/js/filtros-sidebar.js"></script>
+	<script src="${pageContext.request.contextPath}/assets/js/jquery-3.7.1.min.js}"></script>
 </body>
 </html>
